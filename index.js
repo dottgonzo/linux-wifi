@@ -19,7 +19,7 @@ verb('no password specified',"error","LinuxWifi")
 
   if (priority && priority != 'undefined'){
 
-exec(__dirname__dirname+'/wpa_writer.sh -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
+exec(__dirname+'/wpa_writer.sh -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
   resolve(stdout);
 });
 

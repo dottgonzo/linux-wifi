@@ -11,9 +11,9 @@ module.exports={
 if(!essid){
   reject('no essid specified');
 verb('no essid specified',"error","LinuxWifi")
-}else if(!password){
-  reject('no essid specified');
-verb('no essid specified',"error","LinuxWifi")
+}else if(!passw){
+  reject('no password specified');
+verb('no password specified',"error","LinuxWifi")
 
 } else{
 

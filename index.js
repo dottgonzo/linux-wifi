@@ -2,9 +2,20 @@ var exec = require('child_process').exec,
 Promise = require('promise'),
 verb=require('verbo');
 
-module.exports={
 
-  add:function(essid,passw,priority){
+function LinuxWifi(fileconfig){
+  if(fileconfig){
+
+
+  this.fileconfig=fileconfig;
+} else{
+  this.fileconfig='/etc/wpa_supplicant/wpa_supplicant.conf';
+
+}
+}
+
+
+  LinuxWifi.prototype.add=function(essid,passw,priority){
 
     return new Promise(function (resolve, reject) {
 
@@ -14,18 +25,20 @@ verb('no essid specified',"error","LinuxWifi")
 }else if(!passw){
   reject('no password specified');
 verb('no password specified',"error","LinuxWifi")
-
+}else if(passw.length<7){ // controllare se 6 è ok
+  reject('password too short');
+verb('password specified is too short',"error","LinuxWifi")
 } else{
 
   if (priority && priority != 'undefined'){
 
-exec(__dirname+'/wpa_writer.sh -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
+exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
   resolve(stdout);
 });
 
 } else {
 
-exec(__dirname+'/wpa_writer.sh -e"'+essid+'" -p"'+passw+'" -t add -y',function(err, stdout, stderr) {
+exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw+'" -t add -y',function(err, stdout, stderr) {
   resolve(stdout);
 });
 
@@ -39,14 +52,30 @@ exec(__dirname+'/wpa_writer.sh -e"'+essid+'" -p"'+passw+'" -t add -y',function(e
 
 
 
-  },
-  list:function(){
+  };
+  LinuxWifi.prototype.list=function(){
     return new Promise(function (resolve, reject) {
 
-    exec(__dirname+'/wpa_writer.sh -t list',function(err, stdout, stderr) {
+    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t list',function(err, stdout, stderr) {
       resolve(stdout);
 });
 })
-  }
+  };
+  LinuxWifi.prototype.remove=function(essid){
+    return new Promise(function (resolve, reject) {
 
-}
+    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e "'+essid+'" -t remove',function(err, stdout, stderr) {
+      resolve(stdout);
+});
+})
+  };
+  LinuxWifi.prototype.reset=function(essid){
+    return new Promise(function (resolve, reject) {
+
+    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t reset',function(err, stdout, stderr) {
+      resolve(stdout);
+});
+})
+  };
+
+module.exports=LinuxWifi;

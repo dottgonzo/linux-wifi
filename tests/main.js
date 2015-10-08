@@ -1,21 +1,22 @@
 var verb=require('verbo'),
-linuxWifi=require('../index.js');
-
-linuxWifi.list().then(function(list){
+Wifi=require('../index.js');
+var wlan=new Wifi();
+console.log(wlan)
+wlan.list().then(function(list){
   verb(list)
 }).catch(function(err){
   verb(err,"error","LinuxWifi")
 })
 
-linuxWifi.add("dd","sdddddddddddddds",2).then(function(){
-  linuxWifi.list().then(function(list){
+wlan.addwpa("dd","sdddddddddddddds",2).then(function(){
+  wlan.list().then(function(list){
     verb(list)
   })
 }).catch(function(err){
   verb(err,"error","LinuxWifi")
 })
-linuxWifi.add("ddx","yyyyyyyyyyyyysss").then(function(){
-  linuxWifi.list().then(function(list){
+wlan.addwpa("ddx","yyyyyyyyyyyyysss").then(function(){
+  wlan.list().then(function(list){
     verb(list)
   })
 }).catch(function(err){

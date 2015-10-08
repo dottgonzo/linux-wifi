@@ -4,14 +4,14 @@ eapol_version=2
 ap_scan=1
 fast_reauth=1
 network={
-	ssid="dd"
-	#psk="sdddddddddddddds"
-	psk=0e42ec2dc69c5ebbdd47305a5c0017cb15c7102cf2e1e2eb510654d7cdfeac77
-priority=2
-network={
-	ssid="ddx"
-	#psk="yyyyyyyyyyyyysss"
-	psk=7d0a19f47b16016876d694ae1fad0a4b2edab566e7396938a547b1fbf0d6587a
+	ssid="drthdx"
+	#psk="yyyyyyyrtrthtthtryyyyyysss"
+	psk=4a75f1625ea9a22790e6c625a3540fff88cc445879d4607764b4cc2078591a7b
 priority=1
 }
+network={
+	ssid="drtrttrhtd"
+	#psk="sdddddddddddddds"
+	psk=9bb43dae1417c54360f4ad4fab4716bcc4a84e1f925937f4f7d96643b2481edb
+priority=2
 }

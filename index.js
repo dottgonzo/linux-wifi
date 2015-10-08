@@ -11,8 +11,6 @@ if(!pathExists.sync(fileconfig)){
 verb('create path '+fileconfig,"info","linuxWifi")
 this.reset;
 
-} else{
-  verb('test')
 }
 this.fileconfig=fileconfig;
 
@@ -24,7 +22,7 @@ this.fileconfig=fileconfig;
 
 
   LinuxWifi.prototype.add=function(essid,passw,priority){
-
+var fileconfig=this.fileconfig;
     return new Promise(function (resolve, reject) {
 
 if(!essid){
@@ -40,14 +38,14 @@ verb('password specified is too short',"error","LinuxWifi")
 
   if (priority && priority != 'undefined'){
 
-exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
-  resolve(stdout);
+exec(__dirname+'/wpa_writer.sh -c "'+fileconfig+'" -e"'+essid+'" -p"'+passw+'" -l"'+priority+'" -t add -y',function(err, stdout, stderr) {
+  resolve(JSON.parse(stdout))
 });
 
 } else {
 
-exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw+'" -t add -y',function(err, stdout, stderr) {
-  resolve(stdout);
+exec(__dirname+'/wpa_writer.sh -c "'+fileconfig+'" -e"'+essid+'" -p"'+passw+'" -t add -y',function(err, stdout, stderr) {
+  resolve(JSON.parse(stdout))
 });
 
 
@@ -62,18 +60,22 @@ exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw
 
   };
   LinuxWifi.prototype.list=function(){
+    var fileconfig=this.fileconfig;
+
     return new Promise(function (resolve, reject) {
 
-    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t list',function(err, stdout, stderr) {
-      resolve(stdout);
+    exec(__dirname+'/wpa_writer.sh -c "'+fileconfig+'" -t list',function(err, stdout, stderr) {
+      resolve(JSON.parse(stdout))
 });
 })
   };
   LinuxWifi.prototype.reset=function(essid){
+    var fileconfig=this.fileconfig;
+
     return new Promise(function (resolve, reject) {
 
-    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t reset -y',function(err, stdout, stderr) {
-      resolve(stdout);
+    exec(__dirname+'/wpa_writer.sh -c "'+fileconfig+'" -t reset -y',function(err, stdout, stderr) {
+      resolve(JSON.parse(stdout))
 });
 })
   };

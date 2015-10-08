@@ -42,13 +42,12 @@ v) verbose="y";;
 #target="example_wpa/wpa"
 
 
+if [[ $todo  == 'reset' || -f $target ]]; then
 
 
 # add, list, remove, priority
+if [[ $todo  != 'reset' ]]; then
 
-
-if [[ -f $target || $todo != 'reset' ]]; then
-  if [[ -f $target ]]; then
 
 int=$(cat $target | grep -v "#" | grep -B50 -m 1 'network={' | grep -v grep | grep -v 'network')
 
@@ -59,8 +58,8 @@ if [[ $todo != "list" ]]; then
 list=$($0 -t list -c $target)
 
 fi
-fi
 
+fi
 
 
 
@@ -216,8 +215,13 @@ pas=$(cat $target | grep -v 'grep' | grep '#psk="' | sed 's/.*#psk="//g' | sed -
 
 pri=$(cat $target | grep -v 'grep' | grep -v '#' | grep 'priority' | sed 's/.*priority=//g'  | sed -n $nu''p)
 
-
+if [[ $working ]]; then
 netwifi='{"ssid":"'$ssid'","psk":"'$pas'","priority":"'$pri'"}'
+
+else
+  netwifi='{"ssid":"'$ssid'","priority":"'$pri'"}'
+
+fi
 
 
 if [[ $nettest == 0 ]];then
@@ -241,7 +245,7 @@ echo 'priority'
 
 *)
 
-echo "$todo is not valid job"
+echo -n "$todo is not valid job"
 
 exit
 
@@ -256,10 +260,7 @@ if [[ ! $working ]] && [[ $todo != 'list' ]]; then
 $0 -t list -c $target
 
 fi
-
 else
-
-
-echo 'no wpa_supplicanf conf specified'
+  echo "error"
 
 fi

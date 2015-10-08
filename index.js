@@ -8,7 +8,14 @@ function LinuxWifi(fileconfig){
   if(fileconfig){
 
 
+
 this.fileconfig=fileconfig;
+
+if(!pathExists.sync(fileconfig)){
+verb('create path '+fileconfig,"info","linuxWifi")
+this.reset();
+}
+
 console.log(fileconfig)
 } else{
   this.fileconfig='/etc/wpa_supplicant/wpa_supplicant.conf';
@@ -19,18 +26,13 @@ console.log(fileconfig)
 
   LinuxWifi.prototype.add=function(essid,passw,priority){
 var fileconfig=this.fileconfig;
-var reset=this.reset();
 
 
 
-    return new Promise(function (resolve, reject) {
-      console.log(essid)
 
 
-      if(!pathExists.sync(fileconfig)){
-      verb('create path '+fileconfig,"info","linuxWifi")
-      reset.then(function(dd){
-        console.log(dd)
+            return new Promise(function (resolve, reject) {
+              console.log(essid)
 
 
 
@@ -63,17 +65,14 @@ exec(__dirname+'/wpa_writer.sh -c "'+fileconfig+'" -e"'+essid+'" -p"'+passw+'" -
 
 
 }
-}).catch(function(err){
-  console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-
 });
 
+
+
 }
-})
 
 
 
-  };
   LinuxWifi.prototype.list=function(){
     var fileconfig=this.fileconfig;
 

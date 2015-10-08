@@ -47,7 +47,8 @@ v) verbose="y";;
 # add, list, remove, priority
 
 
-if [[ -f $target ]]; then
+if [[ -f $target || $todo != 'reset' ]]; then
+  if [[ -f $target ]]; then
 
 int=$(cat $target | grep -v "#" | grep -B50 -m 1 'network={' | grep -v grep | grep -v 'network')
 
@@ -58,7 +59,7 @@ if [[ $todo != "list" ]]; then
 list=$($0 -t list -c $target)
 
 fi
-
+fi
 
 
 
@@ -208,12 +209,12 @@ for (( nu=1; nu<=$num; nu++ )); do
 
 
 
-ssid=$(cat /etc/wpa_supplicant/wpa_supplicant.conf | grep -v 'grep' | grep -v '#' | grep 'ssid' | sed 's/.*ssid="//g' | sed -s 's/"//g' | sed -n $nu''p)
+ssid=$(cat $target | grep -v 'grep' | grep -v '#' | grep 'ssid' | sed 's/.*ssid="//g' | sed -s 's/"//g' | sed -n $nu''p)
 
 
-pas=$(cat /etc/wpa_supplicant/wpa_supplicant.conf | grep -v 'grep' | grep '#psk="' | sed 's/.*#psk="//g' | sed -s 's/"//g'| sed -n $nu''p)
+pas=$(cat $target | grep -v 'grep' | grep '#psk="' | sed 's/.*#psk="//g' | sed -s 's/"//g'| sed -n $nu''p)
 
-pri=$(cat /etc/wpa_supplicant/wpa_supplicant.conf | grep -v 'grep' | grep -v '#' | grep 'priority' | sed 's/.*priority=//g'  | sed -n $nu''p)
+pri=$(cat $target | grep -v 'grep' | grep -v '#' | grep 'priority' | sed 's/.*priority=//g'  | sed -n $nu''p)
 
 
 netwifi='{"ssid":"'$ssid'","psk":"'$pas'","priority":"'$pri'"}'

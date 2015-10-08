@@ -1,13 +1,21 @@
 var exec = require('child_process').exec,
 Promise = require('promise'),
+pathExists= require('path-exists'),
 verb=require('verbo');
 
 
 function LinuxWifi(fileconfig){
   if(fileconfig){
 
+if(!pathExists.sync(fileconfig)){
+verb('create path '+fileconfig,"info","linuxWifi")
+this.reset;
 
-  this.fileconfig=fileconfig;
+} else{
+  verb('test')
+}
+this.fileconfig=fileconfig;
+
 } else{
   this.fileconfig='/etc/wpa_supplicant/wpa_supplicant.conf';
 
@@ -61,18 +69,10 @@ exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e"'+essid+'" -p"'+passw
 });
 })
   };
-  LinuxWifi.prototype.remove=function(essid){
-    return new Promise(function (resolve, reject) {
-
-    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -e "'+essid+'" -t remove',function(err, stdout, stderr) {
-      resolve(stdout);
-});
-})
-  };
   LinuxWifi.prototype.reset=function(essid){
     return new Promise(function (resolve, reject) {
 
-    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t reset',function(err, stdout, stderr) {
+    exec(__dirname+'/wpa_writer.sh -c "'+this.fileconfig+'" -t reset -y',function(err, stdout, stderr) {
       resolve(stdout);
 });
 })

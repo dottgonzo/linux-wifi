@@ -1,0 +1,17 @@
+
+ctrl_interface=/var/run/wpa_supplicant
+eapol_version=2
+ap_scan=1
+fast_reauth=1
+network={
+	ssid="dd"
+	#psk="sdddddddddddddds"
+	psk=0e42ec2dc69c5ebbdd47305a5c0017cb15c7102cf2e1e2eb510654d7cdfeac77
+priority=2
+network={
+	ssid="ddx"
+	#psk="yyyyyyyyyyyyysss"
+	psk=7d0a19f47b16016876d694ae1fad0a4b2edab566e7396938a547b1fbf0d6587a
+priority=1
+}
+}

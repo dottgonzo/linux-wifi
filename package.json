@@ -19,7 +19,9 @@
     "url": "https://github.com/dottgonzo/linux-wifi/issues"
   },
   "dependencies": {
+    "path-exists": "^2.0.0",
     "promise": "^7.0.4",
+    "promise-exec": "^0.1.0",
     "verbo": "0.0.7"
   }
 }
